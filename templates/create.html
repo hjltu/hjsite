@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h3>Create</h3>
+{% endblock %}
+{% block content %}
+<h2>New Bridge</h2>
+{% if err %}
+  <h4><font color="red">Error: {{err}}</font></h4>
+{% endif %}
+  <form method="post">
+    <label for="sn">Serial Number</label>
+    <input name="sn" id="sn" value="{{ request.form['sn'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+<font color="green"><small>
+* Get serial number from your RaspberryPi.
+Connect RPi to the network, find its/her IP and open it in the browser.
+</small></font>
+{% endblock %}

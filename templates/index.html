@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block header %}
+<center><h3>Welcome Home
+{% if user %}{{ user }}
+{% if serial %}
+    <br>SN: <font color="azure">{{ serial }}</font>
+{% if pin %}
+    PIN: <font color="azure">{{ pin }}</font></h3>
+{% endif %}{% endif %}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if serial %}
+<table style="width:100%">
+<tr>
+<td><h4>Upload CSV file:<br></h4></td>
+<td><h4>Download CSV file:<br></h4></td>
+<td><h4>Apply CSV file:</h4></td>
+</tr><tr><td>
+    <form action = "{{ url_for('mysite.upload') }}"
+        method = "POST"
+        enctype = "multipart/form-data">
+        <input type = "file" name = "file">
+        <input type = "submit" value="Upload &#8657;"></form>
+</td><td>
+    <form action="{{ url_for('mysite.download') }}">
+        <input type="submit" value="Download &#8659;"></form>
+</td><td>
+<form action="{{ url_for('mysite.deploy') }}">
+        <input type="submit" value="Apply &#129302;"></form></center>
+</td></tr></table>
+{% endif %}
+
+{% if msg %}
+    <br><font color="green">&#9989; Info: {{msg}}</font><br>
+{% endif %}
+{% if err %}
+    <h4><font color="red">&#128219; Error: {{err}}</font></h4>
+{% endif %}
+<hr>
+You can download the csv file, open it in Excel or just in any editor,
+then add accessories, upload and apply config CSV file<br>
+<br><font color="blue">
+{% if serial %}{{ serial }}{% else %}file{% endif %}.csv
+example:</font><br>
+#<br>
+# line started with "#" will be ignored<br>
+# Excel escape symbol is "\"<br>
+# KNX address will be like this: 0\/0\/1 mean: 0/0/1<br>
+# sys: homekit, mqtt, knx, iport<br>
+# type: lamp, dimm_lamp, rgb_lamp, fan, outlet, temp, hum, leak, motion<br>
+# type: temp_ntc, term, short, scene, switch, mac<br>
+# name: any name you like<br>
+# comm: knx address or mqtt topic: /wemos1/in/rele14<br>
+# stat: knx address or mqtt topic: /wemos1/out/rele14<br>
+# comm123, stat123: RGB, thermoreg addresses<br>
+#<br>
+sys, type, name, comm, stat, comm1, stat1, comm2, stat2, comm3, stat3<br>
+knx, lamp, лампа, 0/0/1, 0/0/2,,,,,,<br>
+mqtt, fan, вытяжка, /wemos1/in/rele14, /wemos1/out/rele14<br>
+{% endblock %}

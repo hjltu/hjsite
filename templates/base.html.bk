@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Simple</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"
+</head>
+
+<body>
+<div id="container">
+    <div id="header">
+    <nav>
+        <ul>
+        <li><a href="{{ url_for('my.index') }}">Home</a>
+    {% if user %}
+        <li><span>{{ user['username'] }}</span>
+        <li><a href="{{ url_for('my.logout') }}">Log Out</a>
+    {% else %}
+        <li><a href="{{ url_for('my.register') }}">Register</a>
+        <li><a href="{{ url_for('my.login') }}">Log In</a>
+    {% endif %}
+        </ul>
+    </nav>
+    {% block header %}{% endblock %}</div>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        <center>
+        &copy; Copyright 2019 by <a href="http://domain.invalid/">hjltu</a>.
+        </center>
+        {% endblock %}
+    </div>
+</div>
+</body>
+
+</html>
+

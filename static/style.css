@@ -1,0 +1,51 @@
+/** {background-color: coral}**/
+/** {background-color: #b3cce6}**/
+
+
+html
+/**{background-color: #d9e6f2}**/
+{background-color: aliceblue}
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+#container {
+   min-height:100%;
+   position:relative;
+}
+
+#header {
+   /**background:#c6d9ec;**/
+   background: lightsteelblue;
+   padding:10px;
+}
+
+#content {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+   background: aliceblue;
+   /**font-size: large;**/
+}
+
+#footer {
+   /**background:#b3cce6;**/
+   background: lightsteelblue;
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+}
+
+#email { display: none; }
+#passwd { display: none; }
+#user { display: none; }
+#name { display: none; }
+/**
+img {
+  position: fixed;
+  right: 9px;
+  bottom: 9px;
+  z-index: -1;
+}
