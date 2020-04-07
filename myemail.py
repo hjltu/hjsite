@@ -32,7 +32,7 @@ import os, sys, inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
-from config.hjsite import SMTP_SERVER, SMTP_PORT, FROM_EMAIL, FROM_EMAIL_PASSWD, TO_EMAILS
+from config.hjhome import SMTP_SERVER, SMTP_PORT, FROM_EMAIL, FROM_EMAIL_PASSWD, TO_EMAILS
 from setup.serial import serial as SERIAL
 from email.mime.text import MIMEText
 
