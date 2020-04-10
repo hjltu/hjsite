@@ -18,25 +18,28 @@ from auth import login_required, db
 
 import csv_deploy
 import schema
-#import myemail
 
-from instance.config import Dev as config
-#siteName = config.SITE_NAME
+import os, sys, inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+from setup.rpi_serial import serial, pin, ip
+from config.hjhome import 
+
+ALLOWED_EXTENCIONS = {'csv'}
+UPLOAD_FOLDER = os.environ['HOME']+'/config'
+CSV_FILE = serial + '.csv'
 
 bp = Blueprint(
     'mysite', __name__,
     template_folder='templates',
     static_folder='static',)
 
+user = {}
 
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in config.ALLOWED_EXTENSIONS
-
-
-user = {}
-serial = config.SERIAL
-pin = config.PIN_NUMBER
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @bp.route("/")
@@ -66,7 +69,7 @@ def upload():
         print(allowed_file(filename))
         if f and allowed_file(filename):
             #print('filename', os.path.join(config.UPLOAD_FOLDER, filename))
-            f.save(os.path.join(config.UPLOAD_FOLDER, filename))
+            f.save(os.path.join(UPLOAD_FOLDER, filename))
             #return 'file uploaded successfully'
             #return redirect(url_for('mysite.index'))
             msg = "file {} upload successfully".format(filename)
@@ -85,7 +88,7 @@ def upload():
 def download():
     try:
         return send_file(
-            config.UPLOAD_FOLDER+"/"+config.CSV_FILE,
+            UPLOAD_FOLDER+"/"+CSV_FILE,
             as_attachment=True)
     except Exception as e:
         print(e)
@@ -113,7 +116,7 @@ def get_favicon():
 # all other path
 @bp.route("/<path:path>")
 def page_not_found(path):
-    ip=request.remote_addr
+    #ip=request.remote_addr
     return render_template('404.html', ip=ip, path=path, err='404')
 
 

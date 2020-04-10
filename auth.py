@@ -3,6 +3,7 @@
 auth.py
 """
 
+import os, sys
 import functools
 from flask import (
     Blueprint, flash, g, redirect, session,
@@ -11,20 +12,18 @@ from flask import (
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# db
-#from instance.config import Prod as config
-from instance.config import Dev as config
-import schema
-db=config.SQL_DB
-
+import myemail
 # registration token
 import random
 symbols = 'abcdefghijkmnpqrstuvwxyz1234567890ABCDEFGHJKMNPRSTUVWXYZ'
-#token = None
+# db
+db= os.environ['HOME'] + '/instance/user.db'
 
-# mail
-import myemail
-siteName = config.LOCAL_IP
+import inspect
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
+from setup.rpi_serial import ip, hostname
 
 bp = Blueprint(
     'auth', __name__,
@@ -99,8 +98,8 @@ def register():
             res = schema.my_register(
                 db, name, generate_password_hash(passwd), token)
             if res is None:
-                args = [name, siteName, token]
-                print('mail',args)
+                args = [name, token]
+                print('send email',args)
                 myemail.main(args)
                 return redirect(url_for("auth.login"))
             else:

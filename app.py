@@ -51,6 +51,6 @@ app.register_blueprint(mysite.bp)
 
 
 if __name__=="__main__":
-    app.secret_key = config.SECRET_KEY
-    app.debug = config.DEBUG
+    app.secret_key = "hjsite"
+    app.debug = True
     app.run(host="0.0.0.0", port=5000)
