@@ -16,7 +16,6 @@ from werkzeug.exceptions import abort
 
 from auth import login_required, db
 
-import csv_deploy
 import schema
 
 import os, sys, inspect
@@ -24,7 +23,6 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 from setup.rpi_serial import serial, pin, ip
-from config.hjhome import 
 
 ALLOWED_EXTENCIONS = {'csv'}
 UPLOAD_FOLDER = os.environ['HOME']+'/config'
@@ -95,22 +93,25 @@ def download():
         return index(err="File not found. Try to apply")
 
 
-@bp.route('/deploy')
+@bp.route('/apply')
 @login_required
-def deploy():
+def apply():
     if g.token == 'CONFIRMED':
-        out = csv_deploy.main()
+        out = True
+        print('apply new csv file')
+        print("start script to restart containers")
+        out = os.system("sh docker-restart.sh &")
     else:
         return index(err="Not confirmed registration")
-    if out is not True:
-        return index(err=out)
-    return index(msg="deployed successfully, wait a while")
+    if out != 0:
+        return index(err="ERR: restart command returned: {}".format(out))
+    return index(msg="send command to restart system, wait about a minute")
 
 
 @bp.route("/favicon.ico")
 def get_favicon():
     return send_from_directory(bp.static_folder,
-        'logo.png',mimetype='image/vnd.microsoft.icon')
+        'flash.png',mimetype='image/vnd.microsoft.icon')
 
 
 # all other path

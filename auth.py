@@ -18,6 +18,7 @@ import random
 symbols = 'abcdefghijkmnpqrstuvwxyz1234567890ABCDEFGHJKMNPRSTUVWXYZ'
 # db
 db= os.environ['HOME'] + '/instance/user_db'
+import schema
 
 import inspect
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
